@@ -7,18 +7,19 @@ namespace MoviesApp.Controllers
     [Route("api/[controller]")]
     public class TmdbController : ControllerBase
     {
-        private readonly TmdbService _tmdbService;
+        private readonly TmdbService _movieService;
 
         public TmdbController(TmdbService tmdbService)
         {
-            _tmdbService = tmdbService;
+            _movieService = tmdbService;
         }
 
-        [HttpGet("authenticate")]
-        public async Task<IActionResult> Authenticate()
+
+        [HttpGet("popular movies")]
+        public async Task<IActionResult> GetPopularMoviesAsync()
         {
-            var result = await _tmdbService.AuthenticateAsync();
-            return Ok(result); // Return the TMDb API response
+            var result = await _movieService.GetPopularMoviesAsync();
+            return Ok(result); 
         }
     }
 }

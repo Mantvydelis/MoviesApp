@@ -16,12 +16,13 @@ namespace MoviesApp.Services
             _client.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", ApiKey);
         }
 
-        public async Task<string> AuthenticateAsync()
+        public async Task<string> GetPopularMoviesAsync()
         {
+            var requestUri = $"{BaseUrl}/movie/popular?api_key={ApiKey}";
             var request = new HttpRequestMessage
             {
                 Method = HttpMethod.Get,
-                RequestUri = new Uri($"{BaseUrl}/authentication/token/new")
+                RequestUri = new Uri(requestUri)
             };
 
             using (var response = await _client.SendAsync(request))
