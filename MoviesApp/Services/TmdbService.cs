@@ -1,4 +1,6 @@
-﻿using System.Net.Http.Headers;
+﻿using MoviesApp.Models;
+using System.Net.Http.Headers;
+using System.Text.Json;
 
 namespace MoviesApp.Services
 {
@@ -32,5 +34,45 @@ namespace MoviesApp.Services
             }
         }
 
+        public async Task<string> GetMoviesByGenre(int genreId)
+        {
+            var requestUri = $"{BaseUrl}/discover/movie?api_key={ApiKey}&with_genres={genreId}";
+            var request = new HttpRequestMessage
+            {
+                Method = HttpMethod.Get,
+                RequestUri = new Uri(requestUri)
+            };
+
+            using (var response = await _client.SendAsync(request))
+            {
+                response.EnsureSuccessStatusCode();
+                return await response.Content.ReadAsStringAsync();
+            }
+        }
+
+        public async Task<string> GetRandomMovieByGenre(int genreId)
+        {
+            var moviesJson = await GetMoviesByGenre(genreId);
+
+            Console.WriteLine(moviesJson);
+
+            var options = new JsonSerializerOptions
+            {
+                PropertyNameCaseInsensitive = true
+            };
+
+            var movies = JsonSerializer.Deserialize<TmdbMovieResponse>(moviesJson, options);
+
+            if (movies?.Results == null || movies.Results.Count == 0)
+                return "No movies found for this genre.";
+
+            var random = new Random();
+            var randomMovie = movies.Results[random.Next(movies.Results.Count)];
+
+            return randomMovie.Title;
+        }
     }
+
+
 }
+

@@ -19,7 +19,24 @@ namespace MoviesApp.Controllers
         public async Task<IActionResult> GetPopularMoviesAsync()
         {
             var result = await _movieService.GetPopularMoviesAsync();
-            return Ok(result); 
+            return Ok(result);
         }
+
+
+        [HttpGet("movie by genre")]
+        public async Task<IActionResult> GetMovieByGenre(int genreId)
+        {
+            var result = await _movieService.GetMoviesByGenre(genreId);
+            return Ok(result);
+        }
+
+        [HttpGet("random movie by genre")]
+        public async Task<IActionResult> GetRandomMovieByGenre(int genreId)
+        {
+            var result = await _movieService.GetRandomMovieByGenre(genreId);
+            return Ok(result);
+        }
+
+
     }
 }
