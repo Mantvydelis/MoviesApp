@@ -1,4 +1,5 @@
 ﻿using Microsoft.AspNetCore.Mvc;
+using MoviesApp.Enums;
 using MoviesApp.Services;
 
 namespace MoviesApp.Controllers
@@ -24,17 +25,27 @@ namespace MoviesApp.Controllers
 
 
         [HttpGet("movie by genre")]
-        public async Task<IActionResult> GetMovieByGenre(int genreId)
+        public async Task<IActionResult> GetMovieByGenre(string genreName)
         {
-            var result = await _movieService.GetMoviesByGenre(genreId);
-            return Ok(result);
+            if (Enum.TryParse(typeof(Genres), genreName, true, out var genreEnum))
+            {
+                var genreId = (int)genreEnum;
+                var result = await _movieService.GetMoviesByGenre(genreId);
+                return Ok(result);
+            }
+            return BadRequest("Invalid genre name.");
         }
 
         [HttpGet("random movie by genre")]
-        public async Task<IActionResult> GetRandomMovieByGenre(int genreId)
+        public async Task<IActionResult> GetRandomMovieByGenre(string genreName)
         {
-            var result = await _movieService.GetRandomMovieByGenre(genreId);
-            return Ok(result);
+            if (Enum.TryParse(typeof(Genres), genreName, true, out var genreEnum))
+            {
+                var genreId = (int)genreEnum;
+                var result = await _movieService.GetRandomMovieByGenre(genreId);
+                return Ok(result);
+            }
+            return BadRequest("Invalid genre name.");
         }
 
 
