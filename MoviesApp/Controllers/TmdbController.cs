@@ -36,7 +36,7 @@ namespace MoviesApp.Controllers
             return BadRequest("Invalid genre name.");
         }
 
-        [HttpGet("random movie by genre")]
+        [HttpGet("random-movie-by-genre")]
         public async Task<IActionResult> GetRandomMovieByGenre(string genreName)
         {
             if (Enum.TryParse(typeof(Genres), genreName, true, out var genreEnum))
