@@ -6,6 +6,8 @@ Short description: Imagine that you and your partner decide to spend the evening
 
 V0.1 : in first version, I made API that in one list shows all popular movies at this time, selection of movies by its genre and a random movie by its genre. To use genre and random functions, you still need to enter genre number from the TMDB database.
 
+V0.2 : made Web App, that in correspondence with my earlier API, suggests you a random movie name based on genre.
+
 Future features: my end result should be mobile app that I would use to randomly selecting movies. 
 
 
