@@ -1,0 +1,37 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             x:Class="MoviesMobileApp.MainPage">
+    <StackLayout Padding="10">
+        <Label Text="Welcome to Movies App" FontSize="Large" HorizontalOptions="Center" />
+        <Label Text="Please choose your desired genre and get a random movie!" HorizontalOptions="Center" />
+
+        <Picker x:Name="genrePicker" Title="Select a genre">
+            <Picker.ItemsSource>
+                <x:Array Type="{x:Type x:String}">
+                    <x:String>Action</x:String>
+                    <x:String>Adventure</x:String>
+                    <x:String>Animation</x:String>
+                    <x:String>Comedy</x:String>
+                    <x:String>Crime</x:String>
+                    <x:String>Documentary</x:String>
+                    <x:String>Drama</x:String>
+                    <x:String>Family</x:String>
+                    <x:String>Fantasy</x:String>
+                    <x:String>History</x:String>
+                    <x:String>Horror</x:String>
+                    <x:String>Mystery</x:String>
+                    <x:String>Romance</x:String>
+                    <x:String>Science Fiction</x:String>
+                    <x:String>Thriller</x:String>
+                    <x:String>War</x:String>
+                    <x:String>Western</x:String>
+                </x:Array>
+            </Picker.ItemsSource>
+        </Picker>
+
+        <Button Text="Submit" Clicked="OnSubmitClicked" />
+        <Label x:Name="movieLabel" Text="" FontSize="Medium" HorizontalOptions="Center" />
+    </StackLayout>
+</ContentPage>
+
