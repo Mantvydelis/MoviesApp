@@ -42,8 +42,8 @@ namespace MoviesApp.Controllers
             if (Enum.TryParse(typeof(Genres), genreName, true, out var genreEnum))
             {
                 var genreId = (int)genreEnum;
-                var result = await _movieService.GetRandomMovieByGenre(genreId);
-                return Ok(result);
+                var movieTitle = await _movieService.GetRandomMovieByGenre(genreId);
+                return Ok(new { title = movieTitle });  // Return as JSON object
             }
             return BadRequest("Invalid genre name.");
         }

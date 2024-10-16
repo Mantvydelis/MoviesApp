@@ -6,68 +6,37 @@
 
 <div class="text-center">
     <h1 class="display-4">Welcome to Movies App</h1>
-    <p>Please choose wanted genre:</p>
+    <p>Please choose your desired genre and get a random movie!</p>
 </div>
 
-
 <form id="movieForm" class="text-center">
-
-<label for="Genre">Select a genre:</label>
-<br>
-<select id="category"  name="category">
-    <option value="28">Action</option>
-    <option value="12">Adventure</option>
-    <option value="16">Animation</option>
-    <option value="35">Comedy</option>
-    <option value="80">Crime</option>
-    <option value="99">Documentary</option>
-    <option value="18">Drama</option>
-    <option value="10751">Family</option>
-    <option value="14">Fantasy</option>
-    <option value="36">History</option>
-    <option value="27">Horror</option>
-    <option value="9648">Mystery</option>
-    <option value="10749">Romance</option>
-    <option value="878">Science fiction</option>
-    <option value="53">Thriller</option>
-    <option value="10752">War</option>
-    <option value="37">Western</option>
-</select>
-<br>
-<br>
+    <label for="Genre">Select a genre:</label>
+    <br>
+    <select id="category" name="category">
+        <option value="Action">Action</option>
+        <option value="Adventure">Adventure</option>
+        <option value="Animation">Animation</option>
+        <option value="Comedy">Comedy</option>
+        <option value="Crime">Crime</option>
+        <option value="Documentary">Documentary</option>
+        <option value="Drama">Drama</option>
+        <option value="Family">Family</option>
+        <option value="Fantasy">Fantasy</option>
+        <option value="History">History</option>
+        <option value="Horror">Horror</option>
+        <option value="Mystery">Mystery</option>
+        <option value="Romance">Romance</option>
+        <option value="Science_fiction">Science fiction</option>
+        <option value="Thriller">Thriller</option>
+        <option value="War">War</option>
+        <option value="Western">Western</option>
+    </select>
+    <br><br>
 
     <button type="submit" id="submit-button" role="button">Submit</button>
 </form>
 
-
-
-<script>
-    document.getElementById("submit-button").addEventListener("click", async function (event) {
-        event.preventDefault(); 
-
-       
-        var genreValue = document.getElementById("category").value;
-
-        try {
-           
-            let response = await fetch(`https://localhost:7285/api/Tmdb/random-movie-by-genre?genreName=${genreValue}`, {
-                method: 'GET',
-            });
-
-            if (response.ok) {
-                let movie = await response.json();
-                document.getElementById("movieResult").innerHTML = `<h3>Random Movie: ${movie.title}</h3>`;
-            } else {
-                document.getElementById("movieResult").innerHTML = "Failed to retrieve movie.";
-            }
-        } catch (error) {
-            document.getElementById("movieResult").innerHTML = "Error fetching movie.";
-        }
-    });
-</script>
-
-
-<div id="movieResult"></div>
+<div id="movieResult" class="text-center mt-3"></div>
 
 <script>
     document.getElementById("submit-button").addEventListener("click", async function (event) {
@@ -76,17 +45,22 @@
         var genreValue = document.getElementById("category").value;
 
         try {
+            
             let response = await fetch(`https://localhost:7285/api/Tmdb/random-movie-by-genre?genreName=${genreValue}`, {
                 method: 'GET',
+                headers: {
+                    'Content-Type': 'application/json'
+                }
             });
 
             if (response.ok) {
                 let movie = await response.json();
-                document.getElementById("movieResult").innerHTML = `<h3>Random Movie: ${movie.title}</h3>`;
+                document.getElementById("movieResult").innerHTML = `<h3>Let's watch: ${movie.title}</h3>`;
             } else {
                 document.getElementById("movieResult").innerHTML = "Failed to retrieve movie.";
             }
         } catch (error) {
+            console.error('Error details:', error);
             document.getElementById("movieResult").innerHTML = "Error fetching movie.";
         }
     });
