@@ -8,7 +8,7 @@ V0.1 : in first version, I made API that in one list shows all popular movies at
 
 V0.2 : made Web App, that in correspondence with my earlier API, suggests you a random movie name based on genre.
 
-V0.3 : Made test mobile app that would do the random movie function when the API is on.
+V0.3 : Made test mobile app that would do the random movie function. The movie database is integrted into app and I will now work on developement on mobile version. 
 
 Future features: my end result should be mobile app that I would use to randomly selecting movies. 
 
