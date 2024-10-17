@@ -1,50 +1,85 @@
-﻿using System;
-using System.Net.Http;
-using Newtonsoft.Json.Linq;
+﻿using MoviesApp.Models;
+using System.Text.Json;
 
 
 namespace MoviesMobileApp
 {
     public partial class MainPage : ContentPage
     {
-        HttpClient client = new HttpClient();
+        private readonly HttpClient _httpClient = new HttpClient();
+        private const string ApiKey = "377f2c6b1dc000572573b6578e0497d4";
 
         public MainPage()
         {
-            InitializeComponent(); 
+            InitializeComponent();
         }
 
-        private async void OnSubmitClicked(object sender, EventArgs e)
+        private async void OnGetMovieClicked(object sender, EventArgs e)
         {
-            string genre = genrePicker.SelectedItem?.ToString(); 
-
-            if (genre == null)
+            var selectedGenre = genrePicker.SelectedItem?.ToString();
+            if (string.IsNullOrWhiteSpace(selectedGenre))
             {
-                movieLabel.Text = "Please select a genre."; 
+                movieLabel.Text = "Please select a genre.";
                 return;
             }
 
             try
             {
-                string apiUrl = $"https://localhost:7285/api/Tmdb/random-movie-by-genre?genreName={genre}";
-                HttpResponseMessage response = await client.GetAsync(apiUrl);
+                int genreId = GetGenreId(selectedGenre);  // Get the correct genre ID for TMDB
+                string requestUrl = $"https://api.themoviedb.org/3/discover/movie?api_key={ApiKey}&with_genres={genreId}";
 
-                if (response.IsSuccessStatusCode)
+                var response = await _httpClient.GetStringAsync(requestUrl);
+
+                var movies = JsonSerializer.Deserialize<TmdbMovieResponse>(response, new JsonSerializerOptions
                 {
-                    var content = await response.Content.ReadAsStringAsync();
-                    var movieData = JObject.Parse(content);
-                    string movieTitle = movieData["title"].ToString();
-                    movieLabel.Text = $"Random Movie: {movieTitle}";
+                    PropertyNameCaseInsensitive = true
+                });
+
+                if (movies?.Results != null && movies.Results.Count > 0)
+                {
+                    var random = new Random();
+                    var randomMovie = movies.Results[random.Next(movies.Results.Count)];
+                    movieLabel.Text = $"Random Movie: {randomMovie.Title}";
                 }
                 else
                 {
-                    movieLabel.Text = "Failed to retrieve movie.";
+                    movieLabel.Text = "No movies found for this genre.";
                 }
             }
             catch (Exception ex)
             {
-                movieLabel.Text = $"Error: {ex.Message}";
+                movieLabel.Text = $"Error fetching movie: {ex.Message}";
             }
         }
+
+        private int GetGenreId(string genreName)
+        {
+            return genreName.ToLower() switch
+            {
+                "action" => 28,
+                "adventure" => 12,
+                "animation" => 16,
+                "comedy" => 35,
+                "crime" => 80,
+                "documentary" => 99,
+                "drama" => 18,
+                "family" => 10751,
+                "fantasy" => 14,
+                "history" => 36,
+                "horror" => 27,
+                "music" => 10402,
+                "mystery" => 9648,
+                "romance" => 10749,
+                "science fiction" => 878,
+                "thriller" => 53,
+                "war" => 10752,
+                "western" => 37,
+                _ => 0
+
+
+            };
+        }
+
+
     }
 }
